@@ -5,7 +5,7 @@ type User = {
     optionalValue?: string | number | null;
 }
 
-function printUserInfo({ name, birthDate, phone, optionalValue }: User): void {
+const printUserInfo = ({ name, birthDate, phone, optionalValue }: User): void => {
     console.log("------ Інформація про користувача ------");
     console.log(`Ім’я: ${name}`);
     console.log(`Дата народження: ${birthDate ?? "не вказано"}`);
