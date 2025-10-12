@@ -1,6 +1,9 @@
 // tsconfig.json
 {
   "compilerOptions": {
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "exactOptionalPropertyTypes": false,
     "target": "esnext",
     "module": "commonjs",
     "lib": [

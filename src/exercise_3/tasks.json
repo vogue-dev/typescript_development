@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "title": "Написати звіт по проєкту",
+    "description": "Підготувати фінальний звіт по стану реалізації проєкту",
+    "createdAt": "2025-10-01T09:00:00Z",
+    "status": "in_progress",
+    "priority": "high",
+    "deadline": "2025-10-15T17:00:00Z"
+  },
+  {
+    "id": 2,
+    "title": "Оновити резюме",
+    "description": "Додати останній досвід роботи",
+    "createdAt": "2025-10-05T10:00:00Z",
+    "status": "todo",
+    "priority": "medium",
+    "deadline": "2025-10-20T23:59:59Z"
+  },
+  {
+    "id": 3,
+    "title": "Зустріч з клієнтом",
+    "description": "Обговорення деталей нового контракту",
+    "createdAt": "2025-10-06T14:30:00Z",
+    "status": "",
+    "priority": "",
+    "deadline": "2025-10-07T16:00:00Z"
+  },
+  {
+    "id": 4,
+    "title": "Пройти курс з JavaScript",
+    "description": "Пройти онлайн-курс на платформі",
+    "createdAt": "2025-09-25T08:00:00Z",
+    "status": "in_progress",
+    "priority": "medium",
+    "deadline": "2025-11-01T00:00:00Z"
+  },
+  {
+    "id": 5,
+    "title": "Підготувати презентацію",
+    "description": "Підготувати слайди до зустрічі з інвесторами",
+    "createdAt": "2025-10-08T11:45:00Z",
+    "status": "",
+    "priority": "high",
+    "deadline": "2025-10-13T09:00:00Z"
+  },
+  {
+    "id": 6,
+    "title": "Зробити резервну копію",
+    "description": "Зробити бекап важливих документів",
+    "createdAt": "2025-10-02T07:15:00Z",
+    "status": "done",
+    "priority": "low",
+    "deadline": "2025-10-02T23:59:59Z"
+  },
+  {
+    "id": 7,
+    "title": "Планування подорожі",
+    "description": "Забронювати готель і квитки",
+    "createdAt": "2025-10-03T15:20:00Z",
+    "status": "todo",
+    "priority": "",
+    "deadline": "2025-10-18T20:00:00Z"
+  },
+  {
+    "id": 8,
+    "title": "Оновити вебсайт",
+    "description": "Додати новий розділ «Блог»",
+    "createdAt": "2025-10-04T12:00:00Z",
+    "status": "in_progress",
+    "priority": "high",
+    "deadline": "2025-10-25T18:00:00Z"
+  },
+  {
+    "id": 9,
+    "title": "Замовити нову техніку",
+    "description": "Купити ноутбук для нового співробітника",
+    "createdAt": "2025-10-09T10:10:00Z",
+    "status": "done",
+    "priority": "",
+    "deadline": "2027-12-16T17:00:00Z"
+  },
+  {
+    "id": 10,
+    "title": "Провести аналіз ринку",
+    "description": "Зібрати дані для стратегічного планування",
+    "createdAt": "2025-10-01T13:00:00Z",
+    "status": "in_progress",
+    "priority": "high",
+    "deadline": "2025-10-20T12:00:00Z"
+  }
+]

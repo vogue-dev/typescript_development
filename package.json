@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "ts-node-dev --respawn src/exercise_1/index.ts"
+    "dev": "ts-node-dev --respawn src/exercise_3/index.ts"
   },
   "devDependencies": {
     "@types/node": "^24.6.2",
