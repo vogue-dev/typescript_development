@@ -2,41 +2,62 @@ import tasks from "./tasks.json";
 import { Task, Status, Priority } from "./dto/Task"
 import { ALLOWED_PRIORITIES, ALLOWED_STATUSES, DEFAULT_PRIORITY, DEFAULT_STATUS, newTaskExample } from "./constants";
 
-
-
-
 class Tasks {
     private tasks: Task[] = [];
 
-    constructor(tasks: Task[]) {
-            this.tasks = this.normalizeTasks(tasks);
+    constructor(rawTasks: unknown[]) {
+        this.tasks = this.toValidTaskOrSkip(rawTasks);
     }
 
-    private normalizeTasks = (raw: Task[]) => {
-        return raw.map(task => {
-            const statusCandidate = task.status;
-            const priorityCandidate = task.priority;
+    private isValidStatus(value: any): value is Status {
+        return typeof value === 'string' && ALLOWED_STATUSES.includes(value as Status);
+    }
 
-            const status: Status =
-                statusCandidate && ALLOWED_STATUSES.includes(statusCandidate)
-                    ? statusCandidate
+    private isValidPriority(value: any): value is Priority {
+        return typeof value === 'string' && ALLOWED_PRIORITIES.includes(value as Priority);
+    }
+
+    private toValidTaskOrSkip = (tasks: unknown[]): Task[] => {
+        if (!Array.isArray(tasks)) return [];
+
+        return tasks
+            .map((task): Task | null => {
+                if (typeof task !== 'object' || task === null) return null;
+
+                const obj = task as Record<string, unknown>;
+
+                if (
+                    typeof obj.id !== 'number' ||
+                    typeof obj.title !== 'string' ||
+                    typeof obj.description !== 'string'
+                ) {
+                    return null;
+                }
+
+                const status: Status = this.isValidStatus(obj.status)
+                    ? obj.status
                     : DEFAULT_STATUS;
 
-            const priority: Priority =
-                priorityCandidate && ALLOWED_PRIORITIES.includes(priorityCandidate)
-                    ? priorityCandidate
+                const priority: Priority = this.isValidPriority(obj.priority)
+                    ? obj.priority
                     : DEFAULT_PRIORITY;
 
-            return {
-                ...task,
-                status,
-                priority,
-            };
-        });
-    }
+                return {
+                    id: obj.id,
+                    title: obj.title,
+                    description: obj.description,
+                    createdAt:
+                        typeof obj.createdAt === 'string' ? obj.createdAt : new Date().toISOString(),
+                    deadline: typeof obj.deadline === 'string' ? obj.deadline : undefined,
+                    status,
+                    priority
+                };
+            })
+            .filter((task): task is Task => task !== null);
+    };
 
     public get = (id: number) => {
-        return this.tasks.find(task => task.id === id)?.description;
+        return this.tasks.find(task => task.id === id);
     }
 
     public create = (task: Omit<Task, 'id' | 'createdAt'>) => {
@@ -54,10 +75,13 @@ class Tasks {
         return this.tasks = filteredTasks;
     }
 
-    public updateDescription = (id: Task['id'], newDescription: Task['description']): Task[] => {
+    public update = (
+        id: Task['id'],
+        updates: Partial<Omit<Task, 'id' | 'createdAt'>>
+    ): Task[] => {
         this.tasks = this.tasks.map(task =>
             task.id === id
-                ? { ...task, description: newDescription }
+                ? { ...task, ...updates }
                 : task
         );
         return this.tasks;
@@ -66,25 +90,31 @@ class Tasks {
     public filter = (params: {
         status?: Status;
         priority?: Priority;
-        createdAt?: Task['createdAt'];
-        deadline?: Task['deadline'];
+        createdFrom?: Date;
+        createdTo?: Date;
+        deadlineFrom?: Date;
+        deadlineTo?: Date;
     }): Task[] => {
         return this.tasks.filter(task => {
             if (params.status && task.status !== params.status) return false;
             if (params.priority && task.priority !== params.priority) return false;
 
-            if (params.createdAt || params.deadline) {
-                const createdAt = task.createdAt ? new Date(task.createdAt) : null;
+            const createdAt = task.createdAt ? new Date(task.createdAt) : null;
+            if (createdAt) {
+                if (params.createdFrom && createdAt < params.createdFrom) return false;
+                if (params.createdTo && createdAt > params.createdTo) return false;
+            }
 
-                if (createdAt) {
-                    if (params.createdAt && createdAt < params.createdAt) return false;
-                    if (params.deadline && createdAt > params.deadline) return false;
-                }
+            const deadline = task.deadline ? new Date(task.deadline) : null;
+            if (deadline) {
+                if (params.deadlineFrom && deadline < params.deadlineFrom) return false;
+                if (params.deadlineTo && deadline > params.deadlineTo) return false;
             }
 
             return true;
         });
-    }
+    };
+
 
     public isCompletedBeforeDeadline = (id: Task['id']): boolean => {
         const task = this.tasks.find(t => t.id === id);
@@ -101,12 +131,21 @@ class Tasks {
 
 }
 
-const myTasks = new Tasks(tasks as Task[]);
+const myTasks = new Tasks(tasks as unknown[]);
 
-console.log("tasks: ", myTasks)
-console.log("tasks: ", myTasks.get(4))
-console.log("tasks: ", myTasks.create(newTaskExample))
-console.log("tasks: ", myTasks.updateDescription(3, 'Підготувати перші три слайди до зустрічі з інвесторами'))
-console.log("tasks: ", myTasks.remove(5))
-console.log("tasks: ", myTasks.filter({ status: "todo",  priority: "high",  createdAt: new Date("2025-10-01"),  deadline: new Date("2025-10-15") }))
-console.log("tasks: ", myTasks.isCompletedBeforeDeadline(9))
+console.log("myTasks: ", myTasks)
+console.log("get: ", myTasks.get(4))
+console.log("create: ", myTasks.create(newTaskExample))
+console.log("update: ", myTasks.update(4, { title: 'new title', description: "Оновлений опис", status: "in_progress", priority: "high", deadline: '2030-12-12T12:00:00Z' }))
+console.log("remove: ", myTasks.remove(5))
+console.log("filter: ", myTasks.filter(
+    {
+        status: "todo",
+        priority: "high",
+        createdFrom: new Date("2023-10-01"),
+        createdTo: new Date("2026-10-01"),
+        deadlineFrom: new Date("2023-10-15"),
+        deadlineTo: new Date("2026-10-15")
+    }
+))
+console.log("isCompletedBeforeDeadline: ", myTasks.isCompletedBeforeDeadline(9))
