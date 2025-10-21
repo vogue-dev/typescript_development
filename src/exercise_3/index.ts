@@ -9,11 +9,15 @@ class Tasks {
         this.tasks = this.toValidTaskOrSkip(rawTasks);
     }
 
-    private isValidStatus(value: any): value is Status {
+    private isValidDescription(value: unknown): value is Status {
+        return typeof value === 'string';
+    }
+
+    private isValidStatus(value: unknown): value is Status {
         return typeof value === 'string' && ALLOWED_STATUSES.includes(value as Status);
     }
 
-    private isValidPriority(value: any): value is Priority {
+    private isValidPriority(value: unknown): value is Priority {
         return typeof value === 'string' && ALLOWED_PRIORITIES.includes(value as Priority);
     }
 
@@ -24,37 +28,39 @@ class Tasks {
             .map((task): Task | null => {
                 if (typeof task !== 'object' || task === null) return null;
 
-                const obj = task as Record<string, unknown>;
+                if (!('id' in task) || typeof task.id !== 'number') return null;
+                if (!('title' in task) || typeof task.title !== 'string') return null;
 
-                if (
-                    typeof obj.id !== 'number' ||
-                    typeof obj.title !== 'string' ||
-                    typeof obj.description !== 'string'
-                ) {
-                    return null;
-                }
+                const description =
+                    'description' in task && this.isValidDescription(task.description)
+                        ? task.description
+                        : '';
 
-                const status: Status = this.isValidStatus(obj.status)
-                    ? obj.status
-                    : DEFAULT_STATUS;
+                const status: Status =
+                    'status' in task && this.isValidStatus(task.status)
+                        ? task.status
+                        : DEFAULT_STATUS;
 
-                const priority: Priority = this.isValidPriority(obj.priority)
-                    ? obj.priority
-                    : DEFAULT_PRIORITY;
+                const priority: Priority =
+                    'priority' in task && this.isValidPriority(task.priority)
+                        ? task.priority
+                        : DEFAULT_PRIORITY;
 
-                return {
-                    id: obj.id,
-                    title: obj.title,
-                    description: obj.description,
-                    createdAt:
-                        typeof obj.createdAt === 'string' ? obj.createdAt : new Date().toISOString(),
-                    deadline: typeof obj.deadline === 'string' ? obj.deadline : undefined,
-                    status,
-                    priority
-                };
+                const createdAt =
+                    'createdAt' in task && typeof task.createdAt === 'string'
+                        ? task.createdAt
+                        : new Date().toISOString();
+
+                const deadline =
+                    'deadline' in task && typeof task.deadline === 'string'
+                        ? task.deadline
+                        : undefined;
+
+                return { id: task.id, title: task.title, description, status, priority, createdAt, deadline };
             })
             .filter((task): task is Task => task !== null);
     };
+
 
     public get = (id: number) => {
         return this.tasks.find(task => task.id === id);
