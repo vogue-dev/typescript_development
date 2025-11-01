@@ -2,7 +2,7 @@ import tasks from "./tasks.json";
 import { Task, Status, Priority } from "./dto/Task"
 import { ALLOWED_PRIORITIES, ALLOWED_STATUSES, DEFAULT_PRIORITY, DEFAULT_STATUS, newTaskExample } from "./constants";
 
-class Tasks {
+export class Tasks {
     private tasks: Task[] = [];
 
     constructor(rawTasks: unknown[]) {
