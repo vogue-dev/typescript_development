@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Task Manager</title>
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body>
+<h1>Task Manager</h1>
+
+<form id="create-form">
+  <input name="title" placeholder="Title" required />
+  <input name="description" placeholder="Description" required />
+  <input name="status" placeholder="Status" value="todo" required />
+  <input name="priority" placeholder="Priority" value="medium" required />
+  <button type="submit">Create</button>
+</form>
+
+<div style="display: flex; gap: 40px; margin-top: 20px;">
+  <div style="width: 40%;">
+    <h2>Tasks</h2>
+    <div id="task-list"></div>
+  </div>
+
+  <div style="width: 60%;">
+    <h2>Task Info</h2>
+    <div id="detail-panel"></div>
+  </div>
+</div>
+</body>
+</html>
