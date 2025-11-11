@@ -2,10 +2,13 @@ import { TaskController } from './modules/tasks/task.controller';
 
 const controller = new TaskController();
 
+controller.create({
+    title: 'New Story Example',
+    description: 'Implement story points system',
+    status: 'todo',
+    priority: 'medium',
+    type: 'story',
+    storyPoints: 8,
+});
+
 controller.showAll();
-controller.getById(3);
-controller.create();
-controller.update(4);
-controller.remove(5);
-controller.filter();
-controller.checkDeadline(9);

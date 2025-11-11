@@ -1,12 +1,16 @@
-import { taskService } from './task.service';
-import { newTaskExample } from '../../../exercise_3/constants';
+import { TaskService, taskService } from './task.service';
+import { TaskDTO } from './task.types';
 
 export class TaskController {
-    private service = taskService;
+    private service: TaskService;
+
+    constructor(service: TaskService = taskService) {
+        this.service = service;
+    }
 
     showAll(): void {
         console.log('All tasks:');
-        this.service['tasks']?.forEach(t => console.log(t.getTaskInfo()));
+        this.service.getAll().forEach(t => console.log(t.getTaskInfo()));
     }
 
     getById(id: number): void {
@@ -14,40 +18,19 @@ export class TaskController {
         console.log(task ? task.getTaskInfo() : `Task #${id} not found`);
     }
 
-    create(): void {
-        const created = this.service.create(newTaskExample);
+    create(data: TaskDTO): void {
+        const created = this.service.create(data);
         console.log('Created:', created.getTaskInfo());
     }
 
-    update(id: number): void {
-        const updated = this.service.update(id, {
-            title: 'Updated title',
-            description: 'Updated description',
-            status: 'in_progress',
-            priority: 'high',
-            deadline: '2030-01-01T12:00:00Z',
-        });
-        if (updated) {
-            console.log('Updated:', updated.getTaskInfo());
-        } else {
-            console.log(`Task #${id} not found`);
-        }
+    update(id: number, updates: Partial<TaskDTO>): void {
+        const updated = this.service.update(id, updates);
+        console.log(updated ? `Updated: ${updated.getTaskInfo()}` : `Task #${id} not found`);
     }
 
     remove(id: number): void {
         this.service.remove(id);
         console.log(`Removed task #${id}`);
-    }
-
-    filter(): void {
-        const filtered = this.service.filter({
-            status: 'todo',
-            priority: 'high',
-            createdFrom: new Date('2023-01-01'),
-            createdTo: new Date('2026-01-01'),
-        });
-        console.log('Filtered:');
-        filtered.forEach(t => console.log(t.getTaskInfo()));
     }
 
     checkDeadline(id: number): void {
