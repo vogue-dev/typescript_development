@@ -11,8 +11,17 @@
 <form id="create-form">
   <input name="title" placeholder="Title" required />
   <input name="description" placeholder="Description" required />
-  <input name="status" placeholder="Status" value="todo" required />
-  <input name="priority" placeholder="Priority" value="medium" required />
+  <select name="status" required>
+    <option value="todo" selected>To do</option>
+    <option value="in_progress">In progress</option>
+    <option value="done">Done</option>
+  </select>
+  <select name="priority" required>
+    <option value="low">Low</option>
+    <option value="medium" selected>Medium</option>
+    <option value="high">High</option>
+  </select>
+  <input type="date" name="deadline" placeholder="Deadline" />
   <button type="submit">Create</button>
 </form>
 

@@ -1,5 +1,5 @@
 export interface Task {
-    id: number;
+    id: string;
     title: string;
     description: string;
     status: string;
@@ -16,16 +16,14 @@ export async function getTasks(): Promise<Task[]> {
     return res.json();
 }
 
-export async function getTask(id: number): Promise<Task> {
+export async function getTask(id: string): Promise<Task> {
     const res = await fetch(`${API_URL}/${id}`);
     if (!res.ok) throw new Error(`Task ${id} not found`);
     return res.json();
 }
 
 export async function createTask(task: Omit<Task, 'id' | 'createdAt'>): Promise<Task> {
-    const all = await getTasks();
-    const lastId = all.length ? Math.max(...all.map(t => t.id)) : 0;
-    const newTask: Task = { ...task, id: lastId + 1, createdAt: new Date().toISOString() };
+    const newTask = { ...task, createdAt: new Date().toISOString() };
 
     const res = await fetch(API_URL, {
         method: 'POST',
@@ -36,7 +34,7 @@ export async function createTask(task: Omit<Task, 'id' | 'createdAt'>): Promise<
     return res.json();
 }
 
-export async function deleteTask(id: number): Promise<void> {
+export async function deleteTask(id: string): Promise<void> {
     const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
     if (!res.ok) throw new Error('Failed to delete task');
 }

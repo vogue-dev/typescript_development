@@ -10,28 +10,31 @@ async function renderTasks() {
 
     tasks.forEach((t) => {
         const div = document.createElement('div');
-        div.textContent = `${t.title}`;
-        div.dataset.id = t.id.toString();
-
+        div.textContent = `${t.title} (${t.priority}) – ${t.status}`;
+        div.dataset.id = t.id;
+        div.style.cursor = 'pointer';
+        div.style.padding = '6px 8px';
+        div.style.borderBottom = '1px solid #ddd';
+        div.addEventListener('mouseenter', () => div.style.background = '#f7f7f7');
+        div.addEventListener('mouseleave', () => div.style.background = '');
         div.addEventListener('click', async () => {
             const task = await getTask(t.id);
             renderTaskDetail(task);
         });
-
         listContainer.appendChild(div);
     });
 }
 
 function renderTaskDetail(task: Task) {
     detailPanel.innerHTML = `
-    <h3>Task ${task.id}: ${task.title}</h3>
-    <p>${task.description}</p>
-    <p>Status: ${task.status}</p>
-    <p>Priority: ${task.priority}</p>
-    <p>Created: ${new Date(task.createdAt).toLocaleString()}</p>
-    <p>Deadline: ${task.deadline ? new Date(task.deadline).toLocaleDateString() : '-'}</p>
-    <button id="delete-${task.id}">Delete</button>
-  `;
+        <h3>Task ${task.id}: ${task.title}</h3>
+        <p>${task.description}</p>
+        <p>Status: ${task.status}</p>
+        <p>Priority: ${task.priority}</p>
+        <p>Created: ${new Date(task.createdAt).toLocaleString()}</p>
+        <p>Deadline: ${task.deadline ? new Date(task.deadline).toLocaleDateString() : '-'}</p>
+        <button id="delete-${task.id}">Delete</button>
+    `;
 
     const deleteBtn = document.getElementById(`delete-${task.id}`)!;
     deleteBtn.addEventListener('click', async () => {
@@ -43,12 +46,13 @@ function renderTaskDetail(task: Task) {
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const data = new FormData(form);
+    const data = Object.fromEntries(new FormData(form));
     const newTask = {
-        title: data.get('title') as string,
-        description: data.get('description') as string,
-        status: data.get('status') as string,
-        priority: data.get('priority') as string,
+        title: data.title as string,
+        description: data.description as string,
+        status: data.status as string,
+        priority: data.priority as string,
+        deadline: data.deadline as string,
     };
     await createTask(newTask);
     form.reset();
