@@ -34,7 +34,7 @@ describe('TasksListPage', () => {
         expect(await screen.findByText(/failed to load tasks/i)).toBeInTheDocument();
     });
 
-    test('відображає список завдань', async () => {
+    test('show list of tasks', async () => {
         mockGetTasks.mockResolvedValueOnce([
             {
                 id: '1',
