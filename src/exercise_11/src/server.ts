@@ -1,7 +1,6 @@
-// src/server.ts
-import express from 'express';
-import morgan from 'morgan';
-import cors from 'cors';
+import express = require("express");
+import morgan = require("morgan");
+import cors = require("cors");
 
 import taskRoutes from './routes/task.routes.js';
 import { errorHandler } from './controllers/task.controller.js';
