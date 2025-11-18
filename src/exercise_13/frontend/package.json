@@ -1,5 +1,27 @@
 {
+  "scripts": {
+    "prepare": "husky install",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix"
+    ]
+  },
   "devDependencies": {
-    "@testing-library/react": "^16.3.0"
+    "@testing-library/react": "^16.3.0",
+    "@types/jest": "^30.0.0",
+    "@vitejs/plugin-react": "^5.1.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
+    "react-hook-form": "^7.66.0",
+    "react-router-dom": "^7.9.6",
+    "zod": "^4.1.12"
   }
 }

@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { TaskCreateForm } from "./TaskCreateForm";
+import { TaskCreateForm } from "../features/tasks/components/TaskCreatePage";
 
 test("кнопка Submit disabled якщо форма порожня", () => {
     render(<TaskCreateForm onSubmit={async () => {}} />);

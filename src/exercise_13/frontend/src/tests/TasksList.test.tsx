@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { TasksList } from "./TasksList";
+import { TasksListPage } from "../features/tasks/components/TasksListPage";
 
 const baseProps = {
     isLoading: false,
@@ -8,7 +8,7 @@ const baseProps = {
 
 test("відображає список завдань", () => {
     render(
-        <TasksList
+        <TasksListPage
             {...baseProps}
             tasks={[
                 {
@@ -38,13 +38,13 @@ test("відображає список завдань", () => {
 });
 
 test("відображає empty state", () => {
-    render(<TasksList {...baseProps} tasks={[]} />);
+    render(<TasksListPage {...baseProps} tasks={[]} />);
 
     expect(screen.getByText(/no tasks/i)).toBeInTheDocument();
 });
 
 test("відображає повідомлення про помилку", () => {
-    render(<TasksList {...baseProps} tasks={[]} error="Failed to load" />);
+    render(<TasksListPage {...baseProps} tasks={[]} error="Failed to load" />);
 
     expect(screen.getByRole("alert")).toHaveTextContent("Failed to load");
 });
