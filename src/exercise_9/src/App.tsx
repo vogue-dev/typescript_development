@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getTasks, getTaskById, type Task } from './api';
+import { getTasks, getTaskById, type Task } from './api.ts';
 import TaskList from './components/TaskList';
 import TaskDetails from './components/TaskDetails';
 import CreateTaskForm from './components/CreateTaskForm';

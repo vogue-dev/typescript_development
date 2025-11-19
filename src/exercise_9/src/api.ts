@@ -10,12 +10,23 @@ export interface Task {
     deadline?: string;
 }
 
-export async function createTask(task: Task): Promise<Task> {
+export type NewTaskInput = {
+    title: string;
+    description: string;
+    status: string;
+    priority: string;
+    deadline?: string;
+};
+
+export async function createTask(task: NewTaskInput): Promise<Task> {
+    const body = { ...task, createdAt: new Date() };
+
     const res = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(task),
+        body: JSON.stringify(body),
     });
+
     if (!res.ok) throw new Error('Failed to create task');
     return res.json();
 }
@@ -33,6 +44,11 @@ export async function getTaskById(id: string): Promise<Task> {
 }
 
 export async function deleteTask(id: string): Promise<void> {
-    const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
-    if (!res.ok) throw new Error('Failed to delete task');
+    const res = await fetch(`${API_URL}/${id}`, {
+        method: 'DELETE',
+    });
+
+    if (!res.ok) {
+        throw new Error('Failed to delete task');
+    }
 }

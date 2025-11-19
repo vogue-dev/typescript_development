@@ -1,4 +1,4 @@
-import { type Task } from '../../api';
+import { type Task } from '../../api.ts';
 
 interface Props {
     tasks: Task[];
@@ -6,13 +6,13 @@ interface Props {
 }
 
 export default function TaskList({ tasks, onSelect }: Props) {
-    if (tasks.length === 0) {
+    if (tasks?.length === 0) {
         return <div>Task list is empty</div>;
     }
 
     return (
         <ul style={{ listStyle: 'none', padding: 0 }}>
-            {tasks.map((task) => (
+            {tasks?.map((task) => (
                 <li
                     key={task.id}
                     onClick={() => onSelect(task.id)}

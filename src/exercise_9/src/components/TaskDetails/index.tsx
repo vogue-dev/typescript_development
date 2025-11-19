@@ -1,19 +1,25 @@
-import { deleteTask, type Task } from '../../api';
+import { useState } from 'react';
+import { deleteTask, type Task } from '../../api.ts';
 
 interface Props {
     task: Task | null;
-    onDeleted: () => void;
+    onDeleted: () => Promise<void> | void;
 }
 
 export default function TaskDetails({ task, onDeleted }: Props) {
+    const [message, setMessage] = useState<string | null>(null);
+
     if (!task) {
         return <div style={{ flex: 1, padding: '10px' }}>Оберіть завдання</div>;
     }
 
     const handleDelete = async () => {
-        if (confirm(`Remove task "${task.title}"?`)) {
+        setMessage(null);
+        try {
             await deleteTask(task.id);
-            onDeleted();
+            await onDeleted();
+        } catch {
+            setMessage('Error deleting task');
         }
     };
 
@@ -21,19 +27,11 @@ export default function TaskDetails({ task, onDeleted }: Props) {
         <div style={{ flex: 1, padding: '10px' }}>
             <h3>{task.title}</h3>
             <p>{task.description}</p>
-            <p>
-                <b>Status:</b> {task.status}
-            </p>
-            <p>
-                <b>Priority:</b> {task.priority}
-            </p>
-            <p>
-                <b>Created:</b>{' '}
-                {new Date(task.createdAt).toLocaleString('uk-UA', {
-                    dateStyle: 'short',
-                    timeStyle: 'short',
-                })}
-            </p>
+
+            <p><b>Status:</b> {task.status}</p>
+            <p><b>Priority:</b> {task.priority}</p>
+
+            {message && <p style={{ color: 'red' }}>{message}</p>}
 
             <button
                 onClick={handleDelete}
