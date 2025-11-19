@@ -1,40 +1,37 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Task Manager</title>
-  <script type="module" src="/src/main.ts"></script>
+  <title>Tasks</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<h1>Task Manager</h1>
 
+<h2>Tasks</h2>
+
+<div id="task-list"></div>
+
+<h3>Create Task</h3>
 <form id="create-form">
   <input name="title" placeholder="Title" required />
   <input name="description" placeholder="Description" required />
-  <select name="status" required>
-    <option value="todo" selected>To do</option>
-    <option value="in_progress">In progress</option>
-    <option value="done">Done</option>
+  <select name="status">
+    <option value="todo">todo</option>
+    <option value="in_progress">in progress</option>
+    <option value="done">done</option>
   </select>
-  <select name="priority" required>
-    <option value="low">Low</option>
-    <option value="medium" selected>Medium</option>
-    <option value="high">High</option>
+  <select name="priority">
+    <option value="low">low</option>
+    <option value="medium">medium</option>
+    <option value="high">high</option>
   </select>
-  <input type="date" name="deadline" placeholder="Deadline" />
+  <input name="deadline" type="date" />
   <button type="submit">Create</button>
 </form>
 
-<div style="display: flex; gap: 40px; margin-top: 20px;">
-  <div style="width: 40%;">
-    <h2>Tasks</h2>
-    <div id="task-list"></div>
-  </div>
+<h3>Task Details</h3>
+<div id="detail-panel"></div>
 
-  <div style="width: 60%;">
-    <h2>Task Info</h2>
-    <div id="detail-panel"></div>
-  </div>
-</div>
+<script type="module" src="/src/main.ts"></script>
 </body>
 </html>

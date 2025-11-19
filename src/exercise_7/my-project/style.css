@@ -1,0 +1,33 @@
+#task-list {
+    border: 1px solid #ddd;
+    padding: 0;
+}
+
+.task-item {
+    padding: 8px 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.task-item:hover {
+    background: #f7f7f7;
+}
+
+#detail-panel {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.delete-btn {
+    margin-top: 10px;
+    padding: 5px 8px;
+    background: #c62828;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background: #af1e1e;
+}
