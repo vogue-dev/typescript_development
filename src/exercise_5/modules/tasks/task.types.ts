@@ -8,7 +8,10 @@ export interface BaseTaskDTO {
     status: Status;
     priority: Priority;
     deadline?: string;
-    type?: TaskType;
+}
+
+export interface TaskDTO extends BaseTaskDTO {
+    type: 'task';
 }
 
 export interface SubtaskDTO extends BaseTaskDTO {
@@ -31,67 +34,15 @@ export interface EpicDTO extends BaseTaskDTO {
     childrenIds?: number[];
 }
 
-export type TaskDTO = BaseTaskDTO | SubtaskDTO | BugDTO | StoryDTO | EpicDTO;
+export type AnyTaskDTO =
+    | TaskDTO
+    | SubtaskDTO
+    | BugDTO
+    | StoryDTO
+    | EpicDTO;
 
 export interface BaseTaskParams extends BaseTaskDTO {
     id: number;
     createdAt: string;
-}
-
-export class Task {
-    id!: number;
-    title!: string;
-    description!: string;
-    status!: Status;
-    priority!: Priority;
-    createdAt!: string;
-    deadline?: string;
-    type?: TaskType;
-
-    constructor(params: BaseTaskParams) {
-        this.validate(params);
-        Object.assign(this, params);
-    }
-
-    protected validate({ id, title, description }: BaseTaskParams) {
-        if (!Number.isFinite(id) || id <= 0) throw new Error('Invalid task ID');
-        if (!title?.trim()) throw new Error('Task title cannot be empty');
-        if (!description?.trim()) throw new Error('Task description cannot be empty');
-    }
-
-    getTaskInfo(): string {
-        return `[${this.status.toUpperCase()}] ${this.title} (${this.priority})`;
-    }
-}
-
-export class Subtask extends Task {
-    parentId: number;
-    constructor(params: BaseTaskParams & { parentId: number }) {
-        super(params);
-        this.parentId = params.parentId;
-    }
-}
-
-export class Bug extends Task {
-    severity: 'minor' | 'major' | 'critical';
-    constructor(params: BaseTaskParams & { severity: 'minor' | 'major' | 'critical' }) {
-        super(params);
-        this.severity = params.severity;
-    }
-}
-
-export class Story extends Task {
-    storyPoints: number;
-    constructor(params: BaseTaskParams & { storyPoints: number }) {
-        super(params);
-        this.storyPoints = params.storyPoints;
-    }
-}
-
-export class Epic extends Task {
-    childrenIds?: number[];
-    constructor(params: BaseTaskParams & { childrenIds?: number[] }) {
-        super(params);
-        this.childrenIds = params.childrenIds;
-    }
+    type: TaskType;
 }
