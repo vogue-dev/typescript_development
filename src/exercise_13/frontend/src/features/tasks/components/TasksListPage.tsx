@@ -1,15 +1,19 @@
+import { useEffect } from 'react'
 import { type Task } from "../../../../../backend/src/models/Task.model";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     tasks: Task[];
-    onOpenTask: () => void;
+    onOpenTask: (id: number) => void;
+    loadTasks: () => void;
 }
 
-export const TasksListPage = ({ tasks, onOpenTask}) => {
+export const TasksListPage = ({ tasks, onOpenTask, loadTasks}: Props) => {
     const navigate = useNavigate();
 
-
+    useEffect(() => {
+        loadTasks()
+    }, []);
 
     // if (isLoading) return <div>Loading...</div>;
     // if (error) return <div role="alert">{error}</div>;

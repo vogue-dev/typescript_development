@@ -1,0 +1,17 @@
+.canvas {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-auto-rows: 22px;
+
+    .todo {
+        background-color: red;
+    }
+
+    .in_progress {
+        background-color: blue;
+    }
+
+    .done {
+        background-color: green;
+    }
+}
