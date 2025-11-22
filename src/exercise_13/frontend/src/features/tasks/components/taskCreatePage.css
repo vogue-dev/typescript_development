@@ -1,0 +1,71 @@
+.task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 300px;
+    padding: 20px;
+    background: #fafafa;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-input {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+/* textarea трохи більша */
+.textarea {
+    min-height: 70px;
+    resize: vertical;
+}
+
+/* Hover + focus */
+.form-input:hover {
+    border-color: #999;
+}
+
+.form-input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+/* Помилки */
+.error {
+    color: #d9534f;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+/* Кнопка */
+.submit-btn {
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* Hover */
+.submit-btn:hover:not(:disabled) {
+    background: #0069d9;
+}
+
+/* Disabled */
+.submit-btn:disabled {
+    background: #b5d1f3;
+    cursor: not-allowed;
+}

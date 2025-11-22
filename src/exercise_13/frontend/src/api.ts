@@ -28,3 +28,23 @@ export async function fetchTaskById(id: number) {
 
     return res.json();
 }
+
+export async function updateTaskStatus(id: string, status: string) {
+    const res = await fetch(`${API}/tasks/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+    });
+
+    if (!res.ok) throw new Error("Failed to update task");
+
+    return res.json();
+}
+
+export async function deleteTask(id: string | number): Promise<void> {
+    const res = await fetch(`${API}/tasks/${id}`, {
+        method: "DELETE",
+    });
+
+    if (!res.ok) throw new Error("Failed to delete task");
+}
