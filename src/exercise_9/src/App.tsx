@@ -4,6 +4,8 @@ import TaskList from './components/TaskList';
 import TaskDetails from './components/TaskDetails';
 import CreateTaskForm from './components/CreateTaskForm';
 
+import './styles.css'
+
 export default function App() {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
@@ -28,15 +30,8 @@ export default function App() {
     }, []);
 
     return (
-        <div style={{ display: 'flex', height: '100vh' }}>
-            <div
-                style={{
-                    flex: 1,
-                    borderRight: '1px solid #ddd',
-                    padding: '10px',
-                    overflowY: 'auto',
-                }}
-            >
+        <div className="app-container">
+            <div className="app">
                 <CreateTaskForm onTaskCreated={setTasks} />
                 <TaskList tasks={tasks} onSelect={handleSelect} />
             </div>

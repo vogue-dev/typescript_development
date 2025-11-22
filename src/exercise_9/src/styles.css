@@ -1,0 +1,25 @@
+.app-container {
+    display: flex;
+    height: 100vh;
+}
+
+.app {
+    flex: 1;
+    borderRight: '1px solid #ddd';
+    padding: 10px;
+    overflowY: 'auto';
+}
+
+.input {
+    display: block;
+    width: 100%;
+    marginBottom: '8px';
+    padding: 6px;
+    borderRadius: 4px;
+    border: 1px solid #ccc;
+
+    &.error {
+        marginBottom: '4px';
+        border: 1px solid #dc3545;
+    }
+}

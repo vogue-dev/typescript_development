@@ -11,7 +11,7 @@ export default function TaskList({ tasks }: Props) {
     return (
         <ul>
             {tasks.map((t) => (
-                <li key={t.id} style={{ marginBottom: '8px' }}>
+                <li key={t.id} className='task_wrapper'>
                     <Link to={`/tasks/${t.id}`}>
                         {t.title} ({t.priority}) — {t.status}
                     </Link>

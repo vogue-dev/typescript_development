@@ -42,18 +42,8 @@ export default function CreateTaskForm({ onTaskCreated }: Props) {
 
         await onTaskCreated();
 
-        reset();
         setServerMessage('Task successfully created!');
     };
-
-    const inputStyle = (error?: string) => ({
-        display: 'block',
-        width: '100%',
-        marginBottom: error ? '4px' : '8px',
-        padding: '6px',
-        borderRadius: '4px',
-        border: error ? '1px solid #dc3545' : '1px solid #ccc',
-    });
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} style={{ marginBottom: '12px' }}>
@@ -62,7 +52,7 @@ export default function CreateTaskForm({ onTaskCreated }: Props) {
             <input
                 placeholder="Name"
                 {...register('title')}
-                style={inputStyle(errors.title?.message)}
+                className={`input ${errors.title?.message?'' : 'error'}`}
             />
             {errors.title && (
                 <small style={{ color: '#dc3545' }}>{errors.title.message}</small>
@@ -71,7 +61,7 @@ export default function CreateTaskForm({ onTaskCreated }: Props) {
             <textarea
                 placeholder="Description"
                 {...register('description')}
-                style={inputStyle(errors.description?.message)}
+                className={`input ${errors.description?.message?'' : 'error'}`}
             />
             {errors.description && (
                 <small style={{ color: '#dc3545' }}>
@@ -79,13 +69,13 @@ export default function CreateTaskForm({ onTaskCreated }: Props) {
                 </small>
             )}
 
-            <select {...register('status')} style={inputStyle()}>
+            <select {...register('status')} className='input'>
                 <option value="todo">todo</option>
                 <option value="in_progress">in_progress</option>
                 <option value="done">done</option>
             </select>
 
-            <select {...register('priority')} style={inputStyle()}>
+            <select {...register('priority')} className='input'>
                 <option value="low">low</option>
                 <option value="medium">medium</option>
                 <option value="high">high</option>
@@ -94,7 +84,7 @@ export default function CreateTaskForm({ onTaskCreated }: Props) {
             <input
                 type="date"
                 {...register('deadline')}
-                style={inputStyle(errors.deadline?.message)}
+                className={`input ${errors.deadline?.message?'' : 'error'}`}
             />
             {errors.deadline && (
                 <small style={{ color: '#dc3545' }}>

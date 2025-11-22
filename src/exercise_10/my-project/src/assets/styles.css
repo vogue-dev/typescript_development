@@ -1,4 +1,8 @@
 
+.app {
+    padding: 20px;
+}
+
 .tasks_wrapper {
     margin-bottom: 8px;
 }
