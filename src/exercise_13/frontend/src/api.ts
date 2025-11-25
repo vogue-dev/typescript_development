@@ -2,7 +2,7 @@ const API = "http://localhost:3000";
 
 export async function fetchTasks() {
     const res = await fetch(`${API}/tasks`);
-    if (!res.ok) throw new Error("Failed to load tasks.ts");
+    if (!res.ok) throw new Error("Failed to load tasks");
     return res.json();
 }
 

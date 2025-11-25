@@ -1,2 +1,3 @@
-export const ADD_BOOKMARK = "ADD_BOOKMARK";
-export const DELETE_BOOKMARK = "DELETE_BOOKMARK";
+export const ADD_TASK = "ADD_TASK";
+export const REMOVE_TASK = "REMOVE_TASK";
+export const SET_TASKS = "SET_TASKS";

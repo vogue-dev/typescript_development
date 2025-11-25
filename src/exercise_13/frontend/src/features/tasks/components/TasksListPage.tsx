@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
-import { type Task } from "../../../../../backend/src/models/Task.model";
+import { TaskAttributes } from "../../../../../backend/src/models/Task.model";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
-    tasks: Task[];
+    tasks: TaskAttributes[];
     onOpenTask: (id: number) => void;
     loadTasks: () => void;
 }

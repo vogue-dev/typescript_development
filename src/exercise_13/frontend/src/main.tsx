@@ -9,7 +9,6 @@ import App from './App';
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <BrowserRouter>
-            {/*@ts-expect-error Redux Provider children conflict workaround*/}
             <Provider store={store}>
                 <App/>
             </Provider>

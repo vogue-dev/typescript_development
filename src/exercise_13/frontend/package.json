@@ -2,7 +2,7 @@
   "scripts": {
     "prepare": "husky install",
     "dev": "vite",
-    "build": "vite build",
+    "build": "tsc -p tsconfig.build.json && vite build",
     "preview": "vite preview",
     "test": "vitest",
     "lint": "eslint ."
@@ -14,12 +14,11 @@
   },
   "devDependencies": {
     "@testing-library/react": "^16.3.0",
-    "@types/jest": "^30.0.0",
+    "@types/react": "^19.2.7",
     "@typescript-eslint/eslint-plugin": "^8.48.0",
     "@typescript-eslint/parser": "^8.48.0",
-    "@vitejs/plugin-react": "^5.1.1",
+    "@vitejs/plugin-react": "^5.1.0",
     "eslint": "^9.39.1",
-    "eslint-plugin-jest": "^29.2.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "husky": "^9.1.7",

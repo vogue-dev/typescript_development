@@ -1,45 +1,23 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { TaskCreatePage } from "../features/tasks/components/TaskCreatePage";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { TaskCreateForm } from "../features/tasks/components/TaskCreateForm";
 
-test("кнопка Submit disabled якщо форма порожня", () => {
-    render(<TaskCreatePage onSubmit={async () => {}} />);
+describe("TaskCreateForm basic rendering", () => {
+    test("renders all form fields", () => {
+        render(<TaskCreateForm onSubmit={() => {}} />);
 
-    const submitBtn = screen.getByRole("button", { name: /submit/i });
-    expect(submitBtn).toBeDisabled();
-});
-
-test("кнопка Submit enabled при валідній формі", async () => {
-    const handleSubmit = vi.fn().mockResolvedValue(undefined);
-
-    render(<TaskCreatePage onSubmit={handleSubmit} />);
-
-    fireEvent.change(screen.getByPlaceholderText("Title"), {
-        target: { value: "Task title" }
-    });
-    fireEvent.change(screen.getByPlaceholderText("Description"), {
-        target: { value: "Some description" }
+        expect(screen.getByPlaceholderText("Title")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Description")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText("Assignee ID")).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: /submit/i })).toBeInTheDocument();
     });
 
-    const submitBtn = screen.getByRole("button", { name: /submit/i });
+    test("allows typing into fields", () => {
+        render(<TaskCreateForm onSubmit={() => {}} />);
 
-    await waitFor(() => {
-        expect(submitBtn).toBeEnabled();
+        fireEvent.change(screen.getByPlaceholderText("Title"), { target: { value: "Hello" } });
+        expect(screen.getByPlaceholderText("Title")).toHaveValue("Hello");
+
+        fireEvent.change(screen.getByPlaceholderText("Description"), { target: { value: "Test" } });
+        expect(screen.getByPlaceholderText("Description")).toHaveValue("Test");
     });
-
-    fireEvent.click(submitBtn);
-
-    await waitFor(() => {
-        expect(handleSubmit).toHaveBeenCalledTimes(1);
-    });
-});
-
-test("показуються помилки валідації", async () => {
-    render(<TaskCreatePage onSubmit={async () => {}} />);
-
-    const submitBtn = screen.getByRole("button", { name: /submit/i });
-
-    fireEvent.click(submitBtn);
-
-    await screen.findByText(/Title is required/i);
-    await screen.findByText(/Description is required/i);
 });

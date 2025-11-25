@@ -13,6 +13,7 @@ export default [
         files: ["**/*.{ts,tsx}"],
         languageOptions: {
             globals: {
+                console: 'readonly',
                 Node: "readonly",
                 fetch: "readonly",
                 window: "readonly",

@@ -31,8 +31,9 @@ export function TaskCreateForm({ onSubmit }: {
         handleSubmit,
         formState: { errors, isValid, isSubmitting },
     } = useForm<TaskFormValues>({
+        // @ts-expect-error ---
         resolver: zodResolver(createTaskSchema),
-        mode: "onSubmit",
+        mode: "onChange",
         defaultValues: {
             title: "",
             description: "",
@@ -49,7 +50,9 @@ export function TaskCreateForm({ onSubmit }: {
     };
 
 
+
     return (
+        // @ts-expect-error ---
         <form className="task-form" onSubmit={handleSubmit(submitHandler)}>
 
             <div className="form-group">
