@@ -51,6 +51,7 @@ export const Canvas = () => {
                         task={task}
                         onDragStart={() => setDraggingTaskId(task.id)}
                         loadTasks={loadTasks}
+                        withButton={true}
                     />
                 ))}
             </div>
@@ -71,6 +72,7 @@ export const Canvas = () => {
                         task={task}
                         onDragStart={() => setDraggingTaskId(task.id)}
                         loadTasks={loadTasks}
+                        withButton={true}
                     />
                 ))}
             </div>
@@ -91,6 +93,7 @@ export const Canvas = () => {
                         task={task}
                         onDragStart={() => setDraggingTaskId(task.id)}
                         loadTasks={loadTasks}
+                        withButton={true}
                     />
                 ))}
             </div>

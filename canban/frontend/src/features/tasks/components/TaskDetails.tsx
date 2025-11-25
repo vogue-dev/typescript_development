@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import {createTask, fetchTaskById} from "../../../api";
-import {TaskCard} from "./TaskCard";
+import { fetchTaskById} from "../../../api";
+import { TaskCard } from "./TaskCard";
 import { TaskAttributes } from "../../../../../backend/src/models/Task.model";
 
 export const TaskDetails = () => {
-    const [task, setTask] = useState<TaskAttributes>(null);
-
     const { id } = useParams();
 
-
+    const [task, setTask] = useState<TaskAttributes>(null);
 
     useEffect(() => {
         fetchTaskById(Number(id)).then(res => setTask(res));
@@ -18,6 +16,6 @@ export const TaskDetails = () => {
 
 
     return (<div className='task-details-wrapper'>
-        <TaskCard task={task}/>
+        <TaskCard task={task} withButton={false}/>
     </div>)
 }

@@ -8,9 +8,10 @@ interface Props {
     task: TaskAttributes | null;
     onDragStart?: (taskId: number) => void;
     loadTasks?: () => void;
+    withButton?: boolean;
 }
 
-export const TaskCard: React.FC<Props> = ({ task, onDragStart, loadTasks }) => {
+export const TaskCard: React.FC<Props> = ({ task, onDragStart, loadTasks, withButton }) => {
     if (!task) return null;
 
     const navigate = useNavigate();
@@ -38,7 +39,7 @@ export const TaskCard: React.FC<Props> = ({ task, onDragStart, loadTasks }) => {
             onDragStart={handleDragStart}
         >
             <div className="title">{task.title}</div>
-            <button className="details" onClick={() => (navigate(`/tasks/${task.id}`))}>Open details</button>
+            {withButton && <button className="details" onClick={() => (navigate(`/tasks/${task.id}`))}>Open details</button>}
             <div className="remove" onClick={() => deleteWithConfirm(task.id, "Delete this task?", loadTasks)}>[X]</div>
             <div className="description">{task.description}</div>
             {task.deadline && <div className="deadline">Deadline: {task.deadline.toISOString()}</div>}
