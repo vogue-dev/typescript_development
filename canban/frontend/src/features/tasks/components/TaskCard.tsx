@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
-import { TaskAttributes } from "../../../../../backend/src/models/Task.model";
-import { deleteTask } from "../../../api";
-import { useNavigate} from "react-router-dom";
+import { TaskAttributes } from '../../../../../backend/src/models/Task.model';
+import { deleteTask } from '../../../api';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
     task: TaskAttributes | null;
@@ -11,7 +11,12 @@ interface Props {
     withButton?: boolean;
 }
 
-export const TaskCard: React.FC<Props> = ({ task, onDragStart, loadTasks, withButton }) => {
+export const TaskCard: React.FC<Props> = ({
+    task,
+    onDragStart,
+    loadTasks,
+    withButton,
+}) => {
     if (!task) return null;
 
     const navigate = useNavigate();
@@ -19,13 +24,13 @@ export const TaskCard: React.FC<Props> = ({ task, onDragStart, loadTasks, withBu
     const deleteWithConfirm = async (
         id: string | number,
         message: string,
-        onSuccess?: () => void
+        onSuccess?: () => void,
     ): Promise<void> => {
         const confirmed = window.confirm(message);
         if (!confirmed) return;
         await deleteTask(id);
         if (onSuccess) onSuccess();
-    }
+    };
 
     const handleDragStart = (e: React.DragEvent) => {
         onDragStart(task.id);
@@ -33,16 +38,30 @@ export const TaskCard: React.FC<Props> = ({ task, onDragStart, loadTasks, withBu
     };
 
     return (
-        <div
-            className="task-card"
-            draggable
-            onDragStart={handleDragStart}
-        >
+        <div className="task-card" draggable onDragStart={handleDragStart}>
             <div className="title">{task.title}</div>
-            {withButton && <button className="details" onClick={() => (navigate(`/tasks/${task.id}`))}>Open details</button>}
-            <div className="remove" onClick={() => deleteWithConfirm(task.id, "Delete this task?", loadTasks)}>[X]</div>
+            {withButton && (
+                <button
+                    className="details"
+                    onClick={() => navigate(`/tasks/${task.id}`)}
+                >
+                    Open details
+                </button>
+            )}
+            <div
+                className="remove"
+                onClick={() =>
+                    deleteWithConfirm(task.id, 'Delete this task?', loadTasks)
+                }
+            >
+                [X]
+            </div>
             <div className="description">{task.description}</div>
-            {task.deadline && <div className="deadline">Deadline: {task.deadline.toISOString()}</div>}
+            {task.deadline && typeof task.deadline === 'string' ? (
+                <div className="deadline">
+                    Deadline: {new Date(task.deadline).toLocaleDateString()}
+                </div>
+            ) : null}
             <div className="status">{task.status}</div>
             <div className="priority">{task.priority}</div>
         </div>
