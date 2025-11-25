@@ -7,7 +7,7 @@ const supertest_1 = __importDefault(require("supertest"));
 const server_1 = require("../server");
 const config_1 = require("../db/config");
 const Task_model_1 = require("../models/Task.model");
-describe("/tasks.ts API", () => {
+describe("/tasks API", () => {
     beforeAll(async () => {
         await config_1.sequelize.sync({ force: true });
     });
@@ -17,12 +17,12 @@ describe("/tasks.ts API", () => {
     afterAll(async () => {
         await config_1.sequelize.close();
     });
-    test("GET /tasks.ts returns empty list", async () => {
+    test("GET /tasks returns empty list", async () => {
         const res = await (0, supertest_1.default)(server_1.app).get("/tasks");
         expect(res.status).toBe(200);
         expect(res.body).toEqual([]);
     });
-    test("POST /tasks.ts creates task (201)", async () => {
+    test("POST /tasks creates task (201)", async () => {
         const res = await (0, supertest_1.default)(server_1.app).post("/tasks").send({
             title: "Task 1",
             description: "Desc",
@@ -33,7 +33,7 @@ describe("/tasks.ts API", () => {
         expect(res.body.id).toBeDefined();
         expect(res.body.title).toBe("Task 1");
     });
-    test("POST /tasks.ts returns 400 on invalid body", async () => {
+    test("POST /tasks returns 400 on invalid body", async () => {
         const res = await (0, supertest_1.default)(server_1.app).post("/tasks").send({
             description: "No title",
             status: "todo",
@@ -41,7 +41,7 @@ describe("/tasks.ts API", () => {
         });
         expect(res.status).toBe(400);
     });
-    test("GET /tasks.ts/:id returns 200", async () => {
+    test("GET /tasks/:id returns 200", async () => {
         const created = await (0, supertest_1.default)(server_1.app).post("/tasks").send({
             title: "Task 2",
             description: "Desc",
@@ -53,11 +53,11 @@ describe("/tasks.ts API", () => {
         expect(res.status).toBe(200);
         expect(res.body.id).toBe(id);
     });
-    test("GET /tasks.ts/:id returns 404 for unknown id", async () => {
+    test("GET /tasks/:id returns 404 for unknown id", async () => {
         const res = await (0, supertest_1.default)(server_1.app).get("/tasks/99999");
         expect(res.status).toBe(404);
     });
-    test("PUT /tasks.ts/:id updates task", async () => {
+    test("PUT /tasks/:id updates task", async () => {
         const created = await (0, supertest_1.default)(server_1.app).post("/tasks").send({
             title: "Task 3",
             description: "Desc",
@@ -73,13 +73,13 @@ describe("/tasks.ts API", () => {
         expect(res.body.title).toBe("Updated");
         expect(res.body.status).toBe("in_progress");
     });
-    test("PUT /tasks.ts/:id returns 404 if not found", async () => {
+    test("PUT /tasks/:id returns 404 if not found", async () => {
         const res = await (0, supertest_1.default)(server_1.app).put("/tasks/99999").send({
             title: "Updated"
         });
         expect(res.status).toBe(404);
     });
-    test("DELETE /tasks.ts/:id returns 204", async () => {
+    test("DELETE /tasks/:id returns 204", async () => {
         const created = await (0, supertest_1.default)(server_1.app).post("/tasks").send({
             title: "Delete me",
             description: "Desc",
@@ -90,7 +90,7 @@ describe("/tasks.ts API", () => {
         const res = await (0, supertest_1.default)(server_1.app).delete(`/tasks/${id}`);
         expect(res.status).toBe(204);
     });
-    test("DELETE /tasks.ts/:id returns 404 if not found", async () => {
+    test("DELETE /tasks/:id returns 404 if not found", async () => {
         const res = await (0, supertest_1.default)(server_1.app).delete("/tasks/99999");
         expect(res.status).toBe(404);
     });

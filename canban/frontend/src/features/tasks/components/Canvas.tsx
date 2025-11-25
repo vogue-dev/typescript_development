@@ -32,6 +32,7 @@ export const Canvas = () => {
     const progressTasks = tasks.filter((t) => t.status === "in_progress");
     const doneTasks = tasks.filter((t) => t.status === "done");
 
+
     return (
         <div className="canvas">
             <div

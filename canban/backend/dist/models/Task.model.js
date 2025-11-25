@@ -46,12 +46,12 @@ Task.init({
     }
 }, {
     sequelize: config_1.sequelize,
-    tableName: "tasks.ts",
+    tableName: "tasks",
     timestamps: false
 });
 User_model_1.User.hasMany(Task, {
     foreignKey: "assigneeId",
-    as: "tasks.ts"
+    as: "tasks"
 });
 Task.belongsTo(User_model_1.User, {
     foreignKey: "assigneeId",

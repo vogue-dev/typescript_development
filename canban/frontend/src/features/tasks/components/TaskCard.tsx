@@ -1,16 +1,19 @@
 import React from 'react'
 
 import { TaskAttributes } from "../../../../../backend/src/models/Task.model";
-import {deleteTask} from "../../../api";
+import { deleteTask } from "../../../api";
+import { useNavigate} from "react-router-dom";
 
 interface Props {
     task: TaskAttributes | null;
-    onDragStart: (taskId: number) => void;
-    loadTasks: () => void;
+    onDragStart?: (taskId: number) => void;
+    loadTasks?: () => void;
 }
 
 export const TaskCard: React.FC<Props> = ({ task, onDragStart, loadTasks }) => {
     if (!task) return null;
+
+    const navigate = useNavigate();
 
     const deleteWithConfirm = async (
         id: string | number,
@@ -35,6 +38,7 @@ export const TaskCard: React.FC<Props> = ({ task, onDragStart, loadTasks }) => {
             onDragStart={handleDragStart}
         >
             <div className="title">{task.title}</div>
+            <button className="details" onClick={() => (navigate(`/tasks/${task.id}`))}>Open details</button>
             <div className="remove" onClick={() => deleteWithConfirm(task.id, "Delete this task?", loadTasks)}>[X]</div>
             <div className="description">{task.description}</div>
             {task.deadline && <div className="deadline">Deadline: {task.deadline.toISOString()}</div>}

@@ -90,6 +90,12 @@ body {
         border-radius: 10px 10px 0 0;
     }
 
+    .details {
+        top: 5px;
+        right: 40px;
+        position: absolute;
+    }
+
     .remove {
         color: white;
         position: absolute;
@@ -134,4 +140,12 @@ body {
     }
 }
 
+.task-details-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
 
+    > div {
+        width: 300px;
+    }
+}
