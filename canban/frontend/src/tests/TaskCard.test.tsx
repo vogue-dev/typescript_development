@@ -1,6 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { TaskCard } from "../features/tasks/components/TaskCard";
 import { TaskAttributes } from "../../../backend/src/models/Task.model";
+import { describe, test, expect } from "vitest";
+
 
 const task: TaskAttributes = {
     id: 1,
