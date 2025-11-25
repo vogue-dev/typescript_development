@@ -23,7 +23,7 @@ export const createTaskSchema = z.object({
 
 export type TaskFormValues = z.infer<typeof createTaskSchema>;
 
-export function TaskCreateForm({ onSubmit }: {
+export function TaskCreatePage({ onSubmit }: {
     onSubmit: (values: TaskFormValues) => Promise<void> | void;
 }) {
     const {
@@ -31,7 +31,6 @@ export function TaskCreateForm({ onSubmit }: {
         handleSubmit,
         formState: { errors, isValid, isSubmitting },
     } = useForm<TaskFormValues>({
-        // @ts-expect-error ---
         resolver: zodResolver(createTaskSchema),
         mode: "onChange",
         defaultValues: {
@@ -50,9 +49,7 @@ export function TaskCreateForm({ onSubmit }: {
     };
 
 
-
     return (
-        // @ts-expect-error ---
         <form className="task-form" onSubmit={handleSubmit(submitHandler)}>
 
             <div className="form-group">

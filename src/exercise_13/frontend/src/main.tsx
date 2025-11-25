@@ -9,7 +9,7 @@ import App from './App';
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
         <BrowserRouter>
-            <Provider store={store}>
+            <Provider store={store} children={<App />}>
                 <App/>
             </Provider>
         </BrowserRouter>

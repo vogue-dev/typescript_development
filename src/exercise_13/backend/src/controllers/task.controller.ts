@@ -105,6 +105,7 @@ export function errorHandler(
     err: unknown,
     _req: Request,
     res: Response,
+    _next: NextFunction
 ) {
     if (err instanceof ZodError) {
         res.status(400).json({

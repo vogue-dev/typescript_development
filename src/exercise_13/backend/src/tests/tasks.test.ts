@@ -3,7 +3,7 @@ import { app } from "../server";
 import { sequelize } from "../db/config";
 import { Task } from "../models/Task.model";
 
-describe("/tasks API", () => {
+describe("/tasks.ts API", () => {
     beforeAll(async () => {
         await sequelize.sync({ force: true });
     });
@@ -16,13 +16,13 @@ describe("/tasks API", () => {
         await sequelize.close();
     });
 
-    test("GET /tasks returns empty list", async () => {
+    test("GET /tasks.ts returns empty list", async () => {
         const res = await request(app).get("/tasks");
         expect(res.status).toBe(200);
         expect(res.body).toEqual([]);
     });
 
-    test("POST /tasks creates task (201)", async () => {
+    test("POST /tasks.ts creates task (201)", async () => {
         const res = await request(app).post("/tasks").send({
             title: "Task 1",
             description: "Desc",
@@ -35,7 +35,7 @@ describe("/tasks API", () => {
         expect(res.body.title).toBe("Task 1");
     });
 
-    test("POST /tasks returns 400 on invalid body", async () => {
+    test("POST /tasks.ts returns 400 on invalid body", async () => {
         const res = await request(app).post("/tasks").send({
             description: "No title",
             status: "todo",
@@ -45,7 +45,7 @@ describe("/tasks API", () => {
         expect(res.status).toBe(400);
     });
 
-    test("GET /tasks/:id returns 200", async () => {
+    test("GET /tasks.ts/:id returns 200", async () => {
         const created = await request(app).post("/tasks").send({
             title: "Task 2",
             description: "Desc",
@@ -61,12 +61,12 @@ describe("/tasks API", () => {
         expect(res.body.id).toBe(id);
     });
 
-    test("GET /tasks/:id returns 404 for unknown id", async () => {
+    test("GET /tasks.ts/:id returns 404 for unknown id", async () => {
         const res = await request(app).get("/tasks/99999");
         expect(res.status).toBe(404);
     });
 
-    test("PUT /tasks/:id updates task", async () => {
+    test("PUT /tasks.ts/:id updates task", async () => {
         const created = await request(app).post("/tasks").send({
             title: "Task 3",
             description: "Desc",
@@ -86,14 +86,14 @@ describe("/tasks API", () => {
         expect(res.body.status).toBe("in_progress");
     });
 
-    test("PUT /tasks/:id returns 404 if not found", async () => {
+    test("PUT /tasks.ts/:id returns 404 if not found", async () => {
         const res = await request(app).put("/tasks/99999").send({
             title: "Updated"
         });
         expect(res.status).toBe(404);
     });
 
-    test("DELETE /tasks/:id returns 204", async () => {
+    test("DELETE /tasks.ts/:id returns 204", async () => {
         const created = await request(app).post("/tasks").send({
             title: "Delete me",
             description: "Desc",
@@ -107,7 +107,7 @@ describe("/tasks API", () => {
         expect(res.status).toBe(204);
     });
 
-    test("DELETE /tasks/:id returns 404 if not found", async () => {
+    test("DELETE /tasks.ts/:id returns 404 if not found", async () => {
         const res = await request(app).delete("/tasks/99999");
         expect(res.status).toBe(404);
     });

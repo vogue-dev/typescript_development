@@ -1,30 +1,28 @@
-import { ADD_TASK, REMOVE_TASK, SET_TASKS } from '../actions/types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState = {
+export interface TaskState {
+    tasks: string[];
+}
+
+const initialState: TaskState = {
     tasks: [],
 };
 
-export default function tasksReducer(state = initialState, action) {
-    switch (action.type) {
-        case ADD_TASK:
-            return {
-                ...state,
-                tasks: [...state.tasks, action.payload],
-            };
+const tasks = createSlice({
+    name: 'tasks',
+    initialState,
+    reducers: {
+        addTask(state, action: PayloadAction<string>) {
+            state.tasks.push(action.payload);
+        },
+        removeTask(state, action: PayloadAction<number>) {
+            state.tasks.splice(action.payload, 1);
+        },
+        setTasks(state, action: PayloadAction<string[]>) {
+            state.tasks = action.payload;
+        }
+    },
+});
 
-        case REMOVE_TASK:
-            return {
-                ...state,
-                tasks: state.tasks.filter((_, index) => index !== action.payload),
-            };
-
-        case SET_TASKS:
-            return {
-                ...state,
-                tasks: action.payload,
-            };
-
-        default:
-            return state;
-    }
-}
+export const { addTask, removeTask, setTasks } = tasks.actions;
+export default tasks.reducer;
