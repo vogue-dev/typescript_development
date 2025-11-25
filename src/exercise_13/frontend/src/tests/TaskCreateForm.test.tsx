@@ -1,8 +1,8 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { TaskCreateForm } from "../features/tasks/components/TaskCreatePage";
+import { TaskCreatePage } from "../features/tasks/components/TaskCreatePage";
 
 test("кнопка Submit disabled якщо форма порожня", () => {
-    render(<TaskCreateForm onSubmit={async () => {}} />);
+    render(<TaskCreatePage onSubmit={async () => {}} />);
 
     const submitBtn = screen.getByRole("button", { name: /submit/i });
     expect(submitBtn).toBeDisabled();
@@ -11,7 +11,7 @@ test("кнопка Submit disabled якщо форма порожня", () => {
 test("кнопка Submit enabled при валідній формі", async () => {
     const handleSubmit = vi.fn().mockResolvedValue(undefined);
 
-    render(<TaskCreateForm onSubmit={handleSubmit} />);
+    render(<TaskCreatePage onSubmit={handleSubmit} />);
 
     fireEvent.change(screen.getByPlaceholderText("Title"), {
         target: { value: "Task title" }
@@ -34,7 +34,7 @@ test("кнопка Submit enabled при валідній формі", async () 
 });
 
 test("показуються помилки валідації", async () => {
-    render(<TaskCreateForm onSubmit={async () => {}} />);
+    render(<TaskCreatePage onSubmit={async () => {}} />);
 
     const submitBtn = screen.getByRole("button", { name: /submit/i });
 

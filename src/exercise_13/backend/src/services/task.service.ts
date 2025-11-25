@@ -1,5 +1,5 @@
 import { Task, TaskAttributes, TaskStatus, TaskPriority } from "../models/Task.model";
-import { Op } from "sequelize";
+import { Op, WhereOptions } from "sequelize";
 
 export interface TaskFilters {
     status?: TaskStatus;
@@ -19,7 +19,7 @@ export type TaskUpdateInput = Partial<TaskCreateInput>;
 
 export class TaskService {
     async getAll(filters: TaskFilters = {}): Promise<Task[]> {
-        const where: any = {};
+        const where: WhereOptions<TaskAttributes> = {};
 
         if (filters.status) where.status = filters.status;
         if (filters.priority) where.priority = filters.priority;
@@ -27,7 +27,7 @@ export class TaskService {
             const day = filters.createdAt;
             where.createdAt = {
                 [Op.gte]: new Date(day + "T00:00:00.000Z"),
-                [Op.lt]: new Date(day + "T23:59:59.999Z")
+                [Op.lt]: new Date(day + "T23:59:59.999Z"),
             };
         }
 
@@ -39,18 +39,15 @@ export class TaskService {
     }
 
     async create(input: TaskCreateInput): Promise<Task> {
-        const payload: Partial<TaskAttributes> = {
+        const payload: Omit<TaskAttributes, "id" | "createdAt" | "updatedAt"> = {
             title: input.title,
             description: input.description,
             status: input.status,
-            priority: input.priority
+            priority: input.priority,
+            deadline: input.deadline ? new Date(input.deadline) : null,
         };
 
-        if (input.deadline) {
-            payload.deadline = new Date(input.deadline);
-        }
-
-        return Task.create(payload as any);
+        return Task.create(payload);
     }
 
     async update(id: number, updates: TaskUpdateInput): Promise<Task | null> {
@@ -61,9 +58,8 @@ export class TaskService {
         if (updates.description !== undefined) task.description = updates.description;
         if (updates.status !== undefined) task.status = updates.status;
         if (updates.priority !== undefined) task.priority = updates.priority;
-        if (updates.deadline !== undefined) {
+        if (updates.deadline !== undefined)
             task.deadline = updates.deadline ? new Date(updates.deadline) : null;
-        }
 
         await task.save();
         return task;

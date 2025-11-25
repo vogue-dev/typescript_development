@@ -4,7 +4,7 @@ import { type Task } from "../../../../../backend/src/models/Task.model";
 import {deleteTask} from "../../../api";
 
 interface Props {
-    tasks: Task[];
+    task: Task;
     onDragStart: () => void;
     loadTasks: () => void;
 }
@@ -23,7 +23,7 @@ export const TaskCard: React.FC<Props> = ({ task, onDragStart, loadTasks }) => {
         if (onSuccess) onSuccess();
     }
 
-    const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    const handleDragStart = (e: React.DragEvent<React.ReactHTML>) => {
         onDragStart(task.id);
         e.dataTransfer.setDragImage(e.currentTarget, 0, 0);
     };

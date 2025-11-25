@@ -23,7 +23,7 @@ export const createTaskSchema = z.object({
 
 export type TaskFormValues = z.infer<typeof createTaskSchema>;
 
-export function TaskCreatePage({ onSubmit }: {
+export function TaskCreateForm({ onSubmit }: {
     onSubmit: (values: TaskFormValues) => Promise<void> | void;
 }) {
     const {
@@ -32,7 +32,7 @@ export function TaskCreatePage({ onSubmit }: {
         formState: { errors, isValid, isSubmitting },
     } = useForm<TaskFormValues>({
         resolver: zodResolver(createTaskSchema),
-        mode: "onChange",
+        mode: "onSubmit",
         defaultValues: {
             title: "",
             description: "",
