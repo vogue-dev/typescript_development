@@ -9,12 +9,9 @@ import './taskCreateForm.css';
 export const createTaskSchema = z.object({
     title: z.string().min(1, 'Title is required'),
     description: z.string().min(1, 'Description is required'),
-
     status: z.enum(['todo', 'in_progress', 'done']),
     priority: z.enum(['low', 'medium', 'high']),
-
     deadline: z.string().optional(),
-
     assigneeId: z
         .string()
         .optional()
@@ -55,8 +52,11 @@ export const TaskCreateForm = () => {
     return (
         // @ts-expect-error ---
         <form className="task-form" onSubmit={handleSubmit(submitHandler)}>
+            {/* TITLE */}
             <div className="form-group">
+                <label htmlFor="title">Title</label>
                 <input
+                    id="title"
                     placeholder="Title"
                     {...register('title')}
                     className="form-input"
@@ -66,8 +66,11 @@ export const TaskCreateForm = () => {
                 )}
             </div>
 
+            {/* DESCRIPTION */}
             <div className="form-group">
+                <label htmlFor="description">Description</label>
                 <textarea
+                    id="description"
                     placeholder="Description"
                     {...register('description')}
                     className="form-input textarea"
@@ -77,8 +80,14 @@ export const TaskCreateForm = () => {
                 )}
             </div>
 
+            {/* STATUS */}
             <div className="form-group">
-                <select {...register('status')} className="form-input">
+                <label htmlFor="status">Status</label>
+                <select
+                    id="status"
+                    {...register('status')}
+                    className="form-input"
+                >
                     <option value="todo">todo</option>
                     <option value="in_progress">in_progress</option>
                     <option value="done">done</option>
@@ -88,8 +97,14 @@ export const TaskCreateForm = () => {
                 )}
             </div>
 
+            {/* PRIORITY */}
             <div className="form-group">
-                <select {...register('priority')} className="form-input">
+                <label htmlFor="priority">Priority</label>
+                <select
+                    id="priority"
+                    {...register('priority')}
+                    className="form-input"
+                >
                     <option value="low">low</option>
                     <option value="medium">medium</option>
                     <option value="high">high</option>
@@ -99,8 +114,11 @@ export const TaskCreateForm = () => {
                 )}
             </div>
 
+            {/* DEADLINE */}
             <div className="form-group">
+                <label htmlFor="deadline">Deadline</label>
                 <input
+                    id="deadline"
                     type="date"
                     {...register('deadline')}
                     className="form-input"
@@ -110,8 +128,11 @@ export const TaskCreateForm = () => {
                 )}
             </div>
 
+            {/* ASSIGNEE ID */}
             <div className="form-group">
+                <label htmlFor="assigneeId">Assignee ID</label>
                 <input
+                    id="assigneeId"
                     type="number"
                     placeholder="Assignee ID"
                     {...register('assigneeId')}

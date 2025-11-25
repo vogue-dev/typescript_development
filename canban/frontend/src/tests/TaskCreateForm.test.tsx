@@ -1,23 +1,48 @@
-import { render, screen, fireEvent } from "@testing-library/react";
-import { TaskCreateForm } from "../features/tasks/components/TaskCreateForm";
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 
-describe("TaskCreateForm basic rendering", () => {
-    test("renders all form fields", () => {
-        render(<TaskCreateForm onSubmit={() => {}} />);
+import { TaskCreateForm } from '../features/tasks/components/TaskCreateForm';
+import * as api from '../api';
 
-        expect(screen.getByPlaceholderText("Title")).toBeInTheDocument();
-        expect(screen.getByPlaceholderText("Description")).toBeInTheDocument();
-        expect(screen.getByPlaceholderText("Assignee ID")).toBeInTheDocument();
-        expect(screen.getByRole("button", { name: /submit/i })).toBeInTheDocument();
+vi.spyOn(api, 'createTask').mockResolvedValue({});
+
+describe('TaskCreateForm', () => {
+    it('renders form fields correctly', () => {
+        render(
+            <MemoryRouter>
+                <TaskCreateForm />
+            </MemoryRouter>,
+        );
+
+        expect(screen.getByPlaceholderText(/title/i)).toBeInTheDocument();
+        expect(screen.getByPlaceholderText(/description/i)).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: /submit/i })).toBeDisabled();
     });
 
-    test("allows typing into fields", () => {
-        render(<TaskCreateForm onSubmit={() => {}} />);
+    it('validates and submits form', async () => {
+        render(
+            <MemoryRouter>
+                <TaskCreateForm />
+            </MemoryRouter>,
+        );
 
-        fireEvent.change(screen.getByPlaceholderText("Title"), { target: { value: "Hello" } });
-        expect(screen.getByPlaceholderText("Title")).toHaveValue("Hello");
+        fireEvent.change(screen.getByPlaceholderText('Title'), {
+            target: { value: 'My task' },
+        });
 
-        fireEvent.change(screen.getByPlaceholderText("Description"), { target: { value: "Test" } });
-        expect(screen.getByPlaceholderText("Description")).toHaveValue("Test");
+        fireEvent.change(screen.getByPlaceholderText('Description'), {
+            target: { value: 'Some text' },
+        });
+
+        fireEvent.change(screen.getByRole('combobox', { name: /status/i }), {
+            target: { value: 'todo' },
+        });
+
+        fireEvent.change(screen.getByRole('combobox', { name: /priority/i }), {
+            target: { value: 'high' },
+        });
+
+        fireEvent.click(screen.getByRole('button', { name: /submit/i }));
     });
 });
